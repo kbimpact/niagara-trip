@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anniversary Trip · Niagara · May 14–17, 2026</title>
+<style>
+  :root {
+    --bg: #f7f3ec;
+    --paper: #fffdf8;
+    --ink: #1f1a16;
+    --muted: #6b6056;
+    --accent: #6b2a2a;
+    --accent-soft: #a8584b;
+    --line: #e3d9c9;
+    --highlight: #f3e7d3;
+    --check: #4a7c59;
+    --serif: "Cormorant Garamond", "Playfair Display", Georgia, serif;
+    --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.55;
+  }
+  a { color: var(--accent); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color .15s; }
+  a:hover { border-color: var(--accent); }
+  .container {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+
+  /* Header */
+  header.cover {
+    padding: 80px 28px 60px;
+    text-align: center;
+    border-bottom: 1px solid var(--line);
+    background:
+      radial-gradient(circle at 20% 30%, rgba(168,88,75,.08), transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(107,42,42,.06), transparent 50%);
+  }
+  .eyebrow {
+    font-family: var(--sans);
+    text-transform: uppercase;
+    letter-spacing: .28em;
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 22px;
+  }
+  h1 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: clamp(38px, 6vw, 58px);
+    line-height: 1.05;
+    margin: 0 0 14px;
+    letter-spacing: -.01em;
+  }
+  h1 em { font-style: italic; color: var(--accent); }
+  .dates {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 20px;
+    color: var(--muted);
+    margin-bottom: 0;
+  }
+
+  /* Day nav */
+  nav.day-nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(247, 243, 236, 0.94);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+    padding: 14px 0;
+  }
+  nav.day-nav .container {
+    display: flex;
+    gap: 24px;
+    overflow-x: auto;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  nav.day-nav a {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: .15em;
+    color: var(--muted);
+    border-bottom: none;
+    white-space: nowrap;
+  }
+  nav.day-nav a:hover, nav.day-nav a.active {
+    color: var(--accent);
+  }
+
+  /* Section structure */
+  section { padding: 56px 0 24px; }
+  section.day { border-bottom: 1px solid var(--line); }
+  .day-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .day-header h2 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 36px;
+    margin: 0;
+    color: var(--ink);
+  }
+  .day-header .date-tag {
+    font-family: var(--sans);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: .22em;
+    color: var(--muted);
+  }
+
+  /* Block (timed entry) */
+  .block {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 22px 26px;
+    margin-bottom: 18px;
+    position: relative;
+  }
+  .block .time {
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .block h3 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 24px;
+    margin: 0 0 6px;
+    line-height: 1.2;
+  }
+  .block .addr {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+  .block .addr a { color: var(--muted); border-bottom: 1px dotted var(--muted); }
+  .block .addr a:hover { color: var(--accent); border-color: var(--accent); }
+  .block p {
+    margin: 0 0 8px;
+    color: var(--ink);
+  }
+  .block p.note {
+    font-size: 14px;
+    color: var(--muted);
+  }
+
+  .badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .14em;
+    padding: 3px 8px;
+    border-radius: 2px;
+    margin-left: 8px;
+    vertical-align: 2px;
+  }
+  .badge.confirmed { background: #e6efe4; color: #355c40; }
+  .badge.reserved { background: #efe6df; color: #6b432a; }
+  .badge.todo { background: #f4e3d8; color: #8c4a26; }
+  .badge.optional { background: #ece6dc; color: #6b6056; }
+
+  /* Choose block (checkable shortlist) */
+  .choose {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--accent-soft);
+    border-radius: 4px;
+    padding: 20px 26px;
+    margin-bottom: 18px;
+  }
+  .choose .label {
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--accent-soft);
+    margin-bottom: 4px;
+  }
+  .choose h3 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 22px;
+    margin: 0 0 4px;
+  }
+  .choose .lead {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 14px;
+  }
+  .choice-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 10px;
+  }
+  .choice-list li {
+    display: grid;
+    grid-template-columns: 22px 1fr;
+    gap: 12px;
+    align-items: start;
+    padding: 10px 12px;
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    background: #fff;
+    transition: background .15s, border-color .15s;
+    cursor: pointer;
+  }
+  .choice-list li:hover { background: var(--highlight); }
+  .choice-list li.checked { background: #f0f5ee; border-color: #c3d4be; }
+  .choice-list input[type=checkbox] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid var(--muted);
+    border-radius: 3px;
+    cursor: pointer;
+    margin-top: 2px;
+    position: relative;
+    background: #fff;
+  }
+  .choice-list input[type=checkbox]:checked {
+    background: var(--check);
+    border-color: var(--check);
+  }
+  .choice-list input[type=checkbox]:checked::after {
+    content: "";
+    position: absolute;
+    left: 5px;
+    top: 1px;
+    width: 5px;
+    height: 10px;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+  .choice-list .name {
+    font-weight: 600;
+    font-size: 15px;
+  }
+  .choice-list .detail {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .choice-list .detail a { color: var(--muted); border-bottom: 1px dotted var(--muted); }
+  .choice-list .detail a:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* Logistics / cover info */
+  .logistics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 14px;
+    margin-top: 24px;
+  }
+  .logistics-card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 16px 20px;
+  }
+  .logistics-card .lk {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .16em;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .logistics-card .lv {
+    font-size: 14px;
+    line-height: 1.45;
+  }
+  .logistics-card .conf {
+    font-size: 12px;
+    color: var(--muted);
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    margin-top: 4px;
+  }
+
+  /* Section heading */
+  .section-heading {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+  .section-heading h2 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 32px;
+    margin: 0 0 6px;
+  }
+  .section-heading p {
+    font-size: 14px;
+    color: var(--muted);
+    margin: 0;
+  }
+
+  /* Booking + packing */
+  .stack {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 26px 30px;
+  }
+  .stack h3 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 22px;
+    margin: 0 0 14px;
+  }
+  .stack ul.checklist {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .stack ul.checklist li {
+    display: grid;
+    grid-template-columns: 22px 1fr auto;
+    gap: 12px;
+    align-items: start;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--line);
+    cursor: pointer;
+  }
+  .stack ul.checklist li:last-child { border-bottom: none; }
+  .stack ul.checklist input[type=checkbox] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid var(--muted);
+    border-radius: 3px;
+    cursor: pointer;
+    margin-top: 2px;
+    position: relative;
+    background: #fff;
+  }
+  .stack ul.checklist input[type=checkbox]:checked {
+    background: var(--check);
+    border-color: var(--check);
+  }
+  .stack ul.checklist input[type=checkbox]:checked::after {
+    content: "";
+    position: absolute;
+    left: 5px;
+    top: 1px;
+    width: 5px;
+    height: 10px;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+  .stack ul.checklist li.checked .text { color: var(--muted); text-decoration: line-through; }
+  .stack ul.checklist .text { font-size: 14px; }
+  .stack ul.checklist .meta { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .stack ul.checklist .badge { margin-left: 0; }
+  .stack .group-title {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .18em;
+    color: var(--muted);
+    margin: 18px 0 6px;
+  }
+  .stack .group-title:first-child { margin-top: 0; }
+
+  /* Map link icon */
+  .map-icon {
+    display: inline-block;
+    vertical-align: -2px;
+    margin-right: 3px;
+    opacity: .7;
+  }
+
+  /* Footer */
+  footer {
+    padding: 50px 28px 70px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--muted);
+    border-top: 1px solid var(--line);
+    margin-top: 40px;
+  }
+  footer .ornament {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 18px;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+  .reset-btn {
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .14em;
+    padding: 6px 14px;
+    cursor: pointer;
+    border-radius: 2px;
+    margin-top: 16px;
+    font-family: var(--sans);
+  }
+  .reset-btn:hover { color: var(--accent); border-color: var(--accent); }
+
+  @media (max-width: 600px) {
+    .container { padding: 0 18px; }
+    .block, .choose { padding: 18px 18px; }
+    .stack { padding: 20px 20px; }
+    h1 { font-size: 36px; }
+    .day-header h2 { font-size: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="cover">
+  <div class="container">
+    <div class="eyebrow">Anniversary Trip</div>
+    <h1>Niagara Falls &amp; <em>Niagara-on-the-Lake</em></h1>
+    <p class="dates">May 14 – May 17, 2026 · Ontario, Canada</p>
+
+    <div class="logistics-grid">
+      <div class="logistics-card">
+        <div class="lk">Flight Out</div>
+        <div class="lv">UA 2275 · ORD → YYZ<br>Depart 10:40 AM CDT · Arrive 1:34 PM EDT</div>
+      </div>
+      <div class="logistics-card">
+        <div class="lk">Car Rental</div>
+        <div class="lv">Enterprise · Audi Q3<br>Pickup YYZ Thu 1:00 PM · Drop Sun 3:00 PM</div>
+        <div class="conf">Conf. 1797910440</div>
+      </div>
+      <div class="logistics-card">
+        <div class="lk">Thursday Night</div>
+        <div class="lv">Sheraton Fallsview · Fallsview King, Juliet balcony<br>
+          <a href="https://www.google.com/maps/search/?api=1&amp;query=Sheraton+Fallsview+5875+Falls+Avenue+Niagara+Falls+ON" target="_blank" rel="noopener">5875 Falls Avenue, Niagara Falls, ON ↗</a></div>
+        <div class="conf">Conf. 77529242</div>
+      </div>
+      <div class="logistics-card">
+        <div class="lk">Fri – Sun</div>
+        <div class="lv">Dreamweaver Cottage · Steps from Lake Ontario<br>
+          <a href="https://www.google.com/maps/search/?api=1&amp;query=6+Avenue+Wyckliffe+Niagara-on-the-Lake+ON" target="_blank" rel="noopener">6 Avenue Wyckliffe, NOTL ↗</a><br>
+          Contact: Andrew</div>
+        <div class="conf">Conf. 30434142</div>
+      </div>
+      <div class="logistics-card">
+        <div class="lk">Flight Home</div>
+        <div class="lv">UA 1286 · YYZ → ORD<br>Depart 5:30 PM EDT · Arrive 6:29 PM CDT</div>
+        <div class="conf">Conf. ISFJN5</div>
+      </div>
+      <div class="logistics-card">
+        <div class="lk">Trip Posture</div>
+        <div class="lv">Relaxed pace, food-led. Local and independent only. Niche history over tourist density.</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="day-nav">
+  <div class="container">
+    <a href="#thursday">Thu · Arrival</a>
+    <a href="#friday">Fri · NOTL</a>
+    <a href="#saturday">Sat · Locks &amp; Anniversary</a>
+    <a href="#sunday">Sun · Departure</a>
+    <a href="#booking">Booking</a>
+    <a href="niagara-packing.html">Packing ↗</a>
+  </div>
+</nav>
+
+<!-- THURSDAY -->
+<section class="day" id="thursday">
+  <div class="container">
+    <div class="day-header">
+      <h2>Thursday · Arrival &amp; the Falls</h2>
+      <div class="date-tag">May 14, 2026</div>
+    </div>
+
+    <div style="background:#f4e3d8;border-left:3px solid #8c4a26;border-radius:4px;padding:16px 22px;margin-bottom:18px;font-size:14px;line-height:1.55;">
+      <div style="text-transform:uppercase;letter-spacing:.14em;font-size:11px;color:#8c4a26;margin-bottom:6px;font-weight:600;">Weather Watch</div>
+      Updated forecast: Thursday is cool and wet. 54°F high, 40% chance of showers, NW winds gusting to 40 km/h. Pack the rain shell and warmer layer in your carry-on, not checked. The outdoor stretches tonight (walk from Table Rock to the Power Station and back along the Parkway) are most exposed. Hotel balcony view holds in any weather.
+    </div>
+
+    <div class="block">
+      <div class="time">10:40 AM CDT · Departure</div>
+      <h3>ORD → YYZ</h3>
+      <p>UA 2275. Land Toronto 1:34 PM EDT. Pick up the Audi Q3 at Enterprise.</p>
+      <p class="note">Drive QEW south, exit Niagara Parkway. The Parkway runs along the gorge and is significantly better than the highway into town.</p>
+    </div>
+
+    <div class="block">
+      <div class="time">~4:00 PM · Check in</div>
+      <h3>Sheraton Fallsview Hotel</h3>
+      <div class="addr"><a href="https://www.google.com/maps/search/?api=1&amp;query=Sheraton+Fallsview+5875+Falls+Avenue+Niagara+Falls+ON" target="_blank" rel="noopener">5875 Falls Avenue · Map ↗</a></div>
+      <p>High-floor Fallsview King with Juliet balcony overlooking Horseshoe Falls.</p>
+    </div>
+
+    <div class="block">
+      <div class="time">5:30 PM · Dinner</div>
+      <h3>Table Rock House Restaurant <span class="badge confirmed">Confirmed</span></h3>
+      <div class="addr"><a href="https://www.google.com/maps/search/?api=1&amp;query=Table+Rock+House+Restaurant+6650+Niagara+Parkway+Niagara+Falls" target="_blank" rel="noopener">6650 Niagara Pkwy · Map ↗</a></div>
+      <p>Falls-view dining in the Table Rock complex, steps from Horseshoe Falls.</p>
+      <p class="note">Proximity to the Power Station is the priority. Walk from dinner.</p>
+    </div>
+
+    <div class="block">
+      <div class="time">6:50 – 8:00 PM · Evening Experience</div>
+      <h3>Niagara Parks Power Station at Night <span class="badge confirmed">Confirmed slot</span></h3>
+      <div class="addr"><a href="https://www.google.com/maps/search/?api=1&amp;query=Niagara+Parks+Power+Station+7005+Niagara+Parkway" target="_blank" rel="noopener">7005 Niagara Pkwy · Map ↗</a> · Included in Wonder Pass</div>
+      <p>1905 hydroelectric station. Underground tunnel 180 feet below ground, 2,200 feet long, excavated by hand. Evening includes <em>Currents</em>, a sound and light show, then illuminated views of Horseshoe Falls.</p>
+      <p class="note">Walk back along the Parkway, ~10 minutes from Table Rock.</p>
+    </div>
+
+    <div class="block">
+      <div class="time">After 8:00 PM · Walk Back</div>
+      <h3>Falls Illumination</h3>
+      <p>Horseshoe Falls is illuminated through late evening in May. Walk the Parkway back to the hotel.</p>
+      <p class="note">If the rain has come in or the wind picks up, the balcony view is the equivalent payoff without the walk. Either works.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FRIDAY -->
+<section class="day" id="friday">
+  <div class="container">
+    <div class="day-header">
+      <h2>Friday · Three Falls Attractions, then NOTL</h2>
+      <div class="date-tag">May 15, 2026</div>
+    </div>
+
+    <div class="block">
+      <div class="time">8:00 – 8:30 AM · Breakfast</div>
+      <h3>Fallsview Buffet</h3>
+      <p>In the hotel. Convenient before the boat tour. Falls views from the dining room.</p>
+    </div>
+
+    <div class="block">
+      <div class="time">9:30 – 11:00 AM · On the Water</div>
+      <h3>Niagara City Cruises <span class="badge todo">Buy tickets</span></h3>
+      <div class="addr"><a href="https://www.google.com/maps/search/?api=1&amp;query=Niagara+City+Cruises+5920+Niagara+Parkway" target="_blank" rel="noopener">5920 Niagara Pkwy · Map ↗</a></div>
+      <p>20-minute ride to the base of Horseshoe and American Falls. You will get wet. Ponchos provided but a dry change is better.</p>
+      <p class="note">Allow 90 minutes total for queue, ride, and return.</p>
+    </div>
+
+    <div class="block">
+      <div class="time">~11:15 AM</div>
+      <h3>Check out · Sheraton Fallsview</h3>
+      <p>Pack the night before. Load the car straight from the cruise return.</p>
+    </div>
+
+    <div class="block">
+      <div class="time">11:30 AM – 12:30 PM · Falls Attraction</div>
+      <h3>Journey Behind the Falls <span class="badge confirmed">Wonder Pass</span></h3>
+      <div class="addr"><a href="https://www.google.com/maps/search/?api=1&amp;query=Journey+Behind+the+Falls+Table+Rock+6650+Niagara+Parkway+Niagara+Falls" target="_blank" rel="noopener">6650 Niagara Pkwy · Map ↗</a></div>
+      <p>Elevator down 125 feet through the rock, then tunnels behind Horseshoe Falls to two portal viewpoints. Lower observation deck looks up at the falls from the base.</p>
+      <p class="note">Same building as Thursday's dinner. Allow about an hour with the queue.</p>
+    </div>
+
+    <div class="block">
+      <div class="time">12:45 – 1:45 PM · Lunch</div>
+      <h3>Tide and Vine Oyster House</h3>
+      <div class="addr"><a href="https://www.google.com/maps/search/?api=1&amp;query=Tide+and+Vine+Oyster+House+3491+Portage+Road+Niagara+Falls" target="_blank" rel="noopener">3491 Portage Road · Map ↗</a></div>
+      <p>Seafood-forward, local and independent. The strongest standalone restaurant in the Falls area. ~7 minutes from Table Rock.</p>
+    </div>
+
+    <div class="block">
+      <div class="time">2:00 – 2:45 PM · Falls Attraction</div>
+      <h3>White Water Walk <span class="badge confirmed">Wonder Pass</span></h3>
+      <div class="addr"><a href="https://www.google.com/maps/search/?api=1&amp;query=White+Water+Walk+4330+Niagara+Parkway+Niagara+Falls" target="_blank" rel="noopener">4330 Niagara Pkwy · Map ↗</a></div>
+      <p>Elevator down to a quarter-mile boardwalk at the edge of the Class VI rapids in the Niagara Gorge. North of the Falls, in the direction of NOTL.</p>
+      <p class="note">Tide and Vine to White Water Walk is ~10 minutes.</p>
+    </div>
+
+    <div class="block">
+      <div class="time">3:00 – 4:00 PM · Slow Drive North</div>
+      <h3>Niagara Parkway to NOTL</h3>
+      <p>Take it slow. The Parkway runs along the gorge and through wine country. Pull off where you want. ~25 minutes of actual driving, stretched across an hour to land at NOTL right at check-in.</p>
+      <p class="note">Stay on the Parkway. Do not take the highway.</p>
+    </div>
+
+    <!-- CHOOSE: Queen Street -->
+    <div class="choose">
+      <div class="label">Pick what to wander into</div>
+      <h3>Queen Street Shops</h3>
+      <p class="lead">Friday's afternoon window is compressed with the two added Falls attractions. Pick one or two priorities for a brief pre-dinner walk. Greaves is worth it for cottage provisions. Roll the rest into Saturday afternoon when you're back from the wineries.</p>
+      <ul class="choice-list" data-key="queen-shops">
+        <li><input type="checkbox"><div><div class="name">Old Niagara Bookshop</div><div class="detail">Used bookshop · <a href="https://www.google.com/maps/search/?api=1&amp;query=Old+Niagara+Bookshop+Queen+Street+Niagara+on+the+Lake" target="_blank" rel="noopener">Map ↗</a></div></div></li>
+        <li><input type="checkbox"><div><div class="name">Lady Lou Collective</div><div class="detail">Curated local gifts and cards · 106 Queen St Unit B · <a href="https://www.google.com/maps/search/?api=1&amp;query=Lady+Lou+Collective+106+Queen+Street+Niagara+on+the+Lake" target="_blank" rel="noopener">Map ↗</a></div></div></li>
+        <li><input type="checkbox"><div><div class="name">Antidoe Apothecary</div><div class="detail">Wellness and apothecary · <a href="https://www.google.com/maps/search/?api=1&amp;query=Antidoe+Apothecary+Niagara+on+the+Lake" target="_blank" rel="noopener">Map ↗</a></div></div></li>
+        <li><input type="checkbox"><div><div class="name">PocketCHANGE</div><div class="detail">Vintage and thrift · <a href="https://www.google.com/maps/search/?api=1&amp;query=PocketCHANGE+Niagara+on+the+Lake" target="_blank" rel="noopener">Map ↗</a></div></div></li>
+        <li><input type="checkbox"><div><div class="name">Greaves Jams and Marmalades</div><div class="detail">Operating since 1927. Cottage provisions. · <a href="https://www.google.com/maps/search/?api=1&amp;query=Greaves+Jams+Marmalades+Queen+Street+Niagara+on+the+Lake" target="_blank" rel="noopener">Map ↗</a></div></div></li>
+        <li><input type="checkbox"><div><div class="name">NEOB Boutique</div><div class="detail">Lavender products. No blooms in May; farm walk at 933 Niagara Stone Rd but flowers wait until July. · <a href="https://www.google.com/maps/search/?api=1&amp;query=NEOB+Boutique+38+Queen+Street+Niagara+on+the+Lake" target="_blank" rel="noopener">Map ↗</a></div></div></li>
+      </ul>
+    </div>
+
+    <!-- CHOOSE: Coffee -->
+    <div class="choose">
+      <div class="label">Coffee stop</div>
+      <h3>Where to grab a coffee on Queen</h3>
+      <p class="lead">Any one of these. Check what you try, or what you want to circle back to.</p>
+      <ul class="choice-list" data-key="queen-coffee">
+        <li><input type="checkbox"><div><div class="name">Cake Cafe</div><div class="detail"><a href="https://www.google.com/maps/search/?api=1&amp;query=Cake+Cafe+Niagara+on+the+Lake" target="_blank" rel="noopener">Map ↗</a></div></div></li>
+        <li><input type="checkbox"><div><div class="name">Crimson and Clover</div><div class="detail"><a href="https://www.google.com/maps/search/?api=1&amp;query=Crimson+and+Clover+Niagara+on+the+Lake" target="_blank" rel="noopener">Map ↗</a></div></div></li>
+        <li><input type="checkbox"><div><div class="name">Mashtay</div><div class="detail"><a href="https://www.google.com/maps/search/?api=1&amp;query=Mashtay+Niagara+on+the+Lake" target="_blank" rel="noopener">Map ↗</a></div></div></li>
+      </ul>
+    </div>
+
+    <div class="block">
+      <div class="time">4:00 PM · Check in</div>
+      <h3>Dreamweaver Cottage</h3>
+      <div class="addr"><a href="https://www.google.com/maps/search/?api=1&amp;query=6+Avenue+Wyckliffe+Niagara-on-the-Lake+ON" target="_blank" rel="noopener">6 Avenue Wyckliffe · Map ↗</a></div>
+      <p>Settle in. Walk to the lake.</p>
+    </div>
+
+    <div class="block">
+      <div class="time">Anytime · Provisions</div>
+      <h3>Upper Canada Cheese Company <span class="badge optional">Optional</span></h3>
+      <div class="addr"><a href="https://www.google.com/maps/search/?api=1&amp;query=Upper+Canada+Cheese+Company+Niagara+Region" target="_blank" rel="noopener">NOTL area · Map ↗</a></div>
+      <p>Artisan cheese. Cottage snacks and breakfast add-ons.</p>
+    </div>
+
+    <div class="block">
+      <div class="time">7:00 PM · Dinner</div>
+      <h3>The Angel Inn</h3>
+      <div class="addr"><a href="https://www.google.com/maps/search/?api=1&amp;query=The+Angel+Inn+224+Regent+Street+Niagara+on+the+Lake" target="_blank" rel="noopener">224 Regent St · Map ↗</a> · No reservation needed</div>
+      <p>NOTL's oldest continuously operating inn. Tavern downstairs. Casual, cold beer, good pub food. Walkable from the cottage. Easy first night.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SATURDAY -->
+<section class="day" id="saturday">
+  <div class="container">
+    <div class="day-header">
+      <h2>Saturday · Locks &amp; Anniversary</h2>
+      <div class="date-tag">May 16, 2026</div>
+    </div>
+
+    <div class="block">
+      <div class="time">Morning · Slow start</div>
+      <h3>Coffee at the Cottage</h3>
+      <p>Walk to the lake. No alarm.</p>
+    </div>
+
+    <div class="block">
+      <div class="time">10:00 – 10:30 AM · Drive</div>
+      <h3>To St. Catharines</h3>
+      <p>~20 – 25 minutes from NOTL.</p>
+    </div>
+
+    <div class="block">
+      <div class="time">10:30 AM – 12:30 PM</div>
+      <h3>Lock 3 / Welland Canals Centre</h3>
+      <div class="addr"><a href="https://www.google.com/maps/search/?api=1&amp;query=St+Catharines+Museum+Welland+Canals+Centre+1932+Welland+Canals+Parkway" target="_blank" rel="noopener">1932 Welland Canals Pkwy · Map ↗</a> · Free (donation-based)</div>
+      <p>The Welland Canal connects Lake Ontario to Lake Erie and bypasses Niagara Falls. Ships up to 740 feet transit the locks.</p>
+      <p class="note">Check the ship passage schedule the day before on the museum's Facebook page. Time arrival around it. Allow 1.5 – 2 hours.</p>
+    </div>
+
+    <!-- CHOOSE: Saturday lunch -->
+    <div class="choose">
+      <div class="label">Pick your lunch</div>
+      <h3>Saturday Winery Lunch</h3>
+      <p class="lead">Ravine is the food-first choice. Trius is the walk-in friendly backup if the terrace isn't open.</p>
+      <ul class="choice-list" data-key="sat-lunch">
+        <li><input type="checkbox"><div><div class="name">Ravine Vineyard Estate Winery — primary</div><div class="detail">Farm kitchen, seasonal menu, beautiful property. More restaurant than tasting room. Reserve ahead. · 1366 York Road, St. Davids · <a href="https://www.google.com/maps/search/?api=1&amp;query=Ravine+Vineyard+Estate+Winery+1366+York+Road+St+Davids" target="_blank" rel="noopener">Map ↗</a> · <a href="https://ravinevineyard.com" target="_blank" rel="noopener">ravinevineyard.com ↗</a></div></div></li>
+        <li><input type="checkbox"><div><div class="name">Trius Winery at Hillebrand — backup</div><div class="detail">Bistro on site, more walk-in friendly. · 1249 Niagara Stone Rd · <a href="https://www.google.com/maps/search/?api=1&amp;query=Trius+Winery+at+Hillebrand+1249+Niagara+Stone+Road+Niagara+on+the+Lake" target="_blank" rel="noopener">Map ↗</a></div></div></li>
+      </ul>
+    </div>
+
+    <div class="block">
+      <div class="time">Afternoon</div>
+      <h3>Return to NOTL</h3>
+      <p>Walk Queen Street at a slower pace. Cottage downtime before dinner.</p>
+    </div>
+
+    <div class="block">
+      <div class="time">7:00 PM · Anniversary Dinner</div>
+      <h3>The Restaurant at Pillar and Post <span class="badge reserved">Reserved</span></h3>
+      <div class="addr"><a href="https://www.google.com/maps/search/?api=1&amp;query=The+Restaurant+at+Pillar+and+Post+48+John+Street+Niagara+on+the+Lake" target="_blank" rel="noopener">48 John Street · Map ↗</a></div>
+      <p>Heritage hotel dining room. Formal enough to feel like an occasion, not stiff. Anniversary noted on the reservation.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SUNDAY -->
+<section class="day" id="sunday">
+  <div class="container">
+    <div class="day-header">
+      <h2>Sunday · NOTL Morning, Scenic Drive</h2>
+      <div class="date-tag">May 17, 2026</div>
+    </div>
+
+    <div class="block">
+      <div class="time">Early Morning</div>
+      <h3>NOTL Before Checkout</h3>
+      <p>Up early. Pack the night before.</p>
+    </div>
+
+    <!-- CHOOSE: Sunday morning -->
+    <div class="choose">
+      <div class="label">Pick what fits before 10:30</div>
+      <h3>Sunday Morning in Old Town</h3>
+      <p class="lead">Apothecary Museum is the standout. Coffee at Balzac's pairs well with the walk.</p>
+      <ul class="choice-list" data-key="sun-morning">
+        <li><input type="checkbox"><div><div class="name">Balzac's Coffee on Queen</div><div class="detail">Coffee and pastry · <a href="https://www.google.com/maps/search/?api=1&amp;query=Balzacs+Coffee+Queen+Street+Niagara+on+the+Lake" target="_blank" rel="noopener">Map ↗</a></div></div></li>
+        <li><input type="checkbox"><div><div class="name">Niagara Apothecary Museum</div><div class="detail">1866 pharmacy, fully restored with original fixtures, prescription ledgers, and medicinal preparations. Free. Opens ~10:00 AM. Confirm hours. · 5 Queen St · <a href="https://www.google.com/maps/search/?api=1&amp;query=Niagara+Apothecary+Museum+5+Queen+Street+Niagara+on+the+Lake" target="_blank" rel="noopener">Map ↗</a></div></div></li>
+        <li><input type="checkbox"><div><div class="name">Short walk through Old Town</div><div class="detail">Loop back to the cottage by 10:15.</div></div></li>
+      </ul>
+    </div>
+
+    <div class="block">
+      <div class="time">10:30 AM</div>
+      <h3>Check out · Dreamweaver</h3>
+    </div>
+
+    <div class="block">
+      <div class="time">Drive to YYZ · Scenic Route</div>
+      <h3>Niagara Escarpment</h3>
+      <p>Leave NOTL via Ridge Road north toward Queenston. Follow the Escarpment west through Grimsby and Beamsville. Pull off at viewpoints for lake views, no commitment. Then QEW west to Pearson.</p>
+      <p class="note">Adds ~30 – 45 minutes over the highway. Fits within the checkout-to-drop window.</p>
+    </div>
+
+    <!-- CHOOSE: Sunday optional -->
+    <div class="choose">
+      <div class="label">Optional final stop</div>
+      <h3>If energy allows</h3>
+      <p class="lead">Skip if running tight. The scenic drive itself is the experience.</p>
+      <ul class="choice-list" data-key="sun-optional">
+        <li><input type="checkbox"><div><div class="name">Royal Botanical Gardens · Rock Garden</div><div class="detail">~45 min from NOTL, ~30 min from YYZ. Opens 10:00 AM. Rock Garden is the highlight. · 680 Plains Rd W, Burlington · <a href="https://www.google.com/maps/search/?api=1&amp;query=Royal+Botanical+Gardens+680+Plains+Road+West+Burlington+Ontario" target="_blank" rel="noopener">Map ↗</a></div></div></li>
+        <li><input type="checkbox"><div><div class="name">Grimsby / Beamsville escarpment pull-offs</div><div class="detail">Lake views along the escarpment route. No commitment. · <a href="https://www.google.com/maps/search/?api=1&amp;query=Niagara+Escarpment+Grimsby+Beamsville+Ontario" target="_blank" rel="noopener">Map ↗</a></div></div></li>
+      </ul>
+    </div>
+
+    <div class="block">
+      <div class="time">3:00 PM</div>
+      <h3>Car Drop · Enterprise YYZ</h3>
+      <div class="addr"><a href="https://www.google.com/maps/search/?api=1&amp;query=Enterprise+6301+Silver+Dart+Drive+Mississauga+Toronto+Pearson" target="_blank" rel="noopener">6301 Silver Dart Dr, Mississauga · Map ↗</a></div>
+    </div>
+
+    <div class="block">
+      <div class="time">5:30 PM EDT</div>
+      <h3>Depart YYZ → ORD</h3>
+      <p>UA 1286. Arrive Chicago 6:29 PM CDT. Conf. ISFJN5.</p>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING -->
+<section id="booking">
+  <div class="container">
+    <div class="section-heading">
+      <h2>Booking Status</h2>
+      <p>Check things off as you confirm them.</p>
+    </div>
+    <div class="stack">
+      <div class="group-title">Locked</div>
+      <ul class="checklist" data-key="booking">
+        <li><input type="checkbox" checked><div><div class="text">Table Rock House · Thursday dinner</div><div class="meta">Reservation confirmed</div></div><span class="badge confirmed">Confirmed</span></li>
+        <li><input type="checkbox" checked><div><div class="text">Power Station at Night · 6:50 PM Thursday</div><div class="meta">Slot locked via niagaraparks.com</div></div><span class="badge confirmed">Confirmed</span></li>
+        <li><input type="checkbox" checked><div><div class="text">Sheraton Fallsview · Thursday night</div><div class="meta">Conf. 77529242</div></div><span class="badge confirmed">Confirmed</span></li>
+        <li><input type="checkbox" checked><div><div class="text">Dreamweaver Cottage · Fri – Sun</div><div class="meta">Conf. 30434142 · Contact: Andrew</div></div><span class="badge confirmed">Confirmed</span></li>
+        <li><input type="checkbox" checked><div><div class="text">Enterprise car rental</div><div class="meta">Conf. 1797910440</div></div><span class="badge confirmed">Confirmed</span></li>
+        <li><input type="checkbox" checked><div><div class="text">Flights · UA 2275 outbound, UA 1286 return</div><div class="meta">Conf. ISFJN5</div></div><span class="badge confirmed">Confirmed</span></li>
+        <li><input type="checkbox" checked><div><div class="text">Pillar and Post · Saturday anniversary dinner</div><div class="meta">Anniversary noted on reservation</div></div><span class="badge reserved">Reserved</span></li>
+      </ul>
+
+      <div class="group-title">To do before the trip</div>
+      <ul class="checklist" data-key="booking-todo">
+        <li><input type="checkbox"><div><div class="text">Buy Niagara City Cruises tickets</div><div class="meta"><a href="https://www.niagaracruises.com" target="_blank" rel="noopener">niagaracruises.com ↗</a></div></div><span class="badge todo">To do</span></li>
+        <li><input type="checkbox"><div><div class="text">Buy Niagara Wonder Pass</div><div class="meta"><a href="https://www.niagaraparks.com" target="_blank" rel="noopener">niagaraparks.com ↗</a> · Covers Power Station, Journey Behind the Falls, White Water Walk, Butterfly Conservatory, WEGO bus. The boat tour is purchased separately.</div></div><span class="badge todo">To do</span></li>
+        <li><input type="checkbox"><div><div class="text">Call or email Ravine Vineyard for Saturday lunch</div><div class="meta">Confirm terrace open in May and reserve · <a href="https://ravinevineyard.com" target="_blank" rel="noopener">ravinevineyard.com ↗</a></div></div><span class="badge todo">To do</span></li>
+      </ul>
+
+      <div class="group-title">Day before</div>
+      <ul class="checklist" data-key="booking-dayof">
+        <li><input type="checkbox"><div><div class="text">Check Lock 3 ship passage schedule</div><div class="meta">Friday night, on the museum's Facebook page, for Saturday timing</div></div><span class="badge todo">Fri night</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- PACKING -->
+<section id="packing">
+  <div class="container">
+    <div class="section-heading">
+      <h2>Packing</h2>
+      <p>Check off as you pack.</p>
+    </div>
+    <div class="stack">
+      <div class="group-title">Documents</div>
+      <ul class="checklist" data-key="pack-docs">
+        <li><input type="checkbox"><div><div class="text">Passports</div><div class="meta">Required for Canadian entry and US return</div></div></li>
+        <li><input type="checkbox"><div><div class="text">All confirmation numbers</div><div class="meta">Hotel, cottage, flights, car</div></div></li>
+        <li><input type="checkbox"><div><div class="text">Wonder Pass confirmation</div><div class="meta">Once purchased</div></div></li>
+        <li><input type="checkbox"><div><div class="text">Niagara City Cruises tickets</div><div class="meta">Once purchased</div></div></li>
+      </ul>
+
+      <div class="group-title">Clothing</div>
+      <ul class="checklist" data-key="pack-clothing">
+        <li><input type="checkbox"><div><div class="text">Light jacket or mid-layer</div><div class="meta">Mornings near the lake and gorge are in the 50s</div></div></li>
+        <li><input type="checkbox"><div><div class="text">Rain jacket or packable shell</div><div class="meta">May weather is variable</div></div></li>
+        <li><input type="checkbox"><div><div class="text">One warmer layer for evenings</div></div></li>
+        <li><input type="checkbox"><div><div class="text">Comfortable walking shoes</div><div class="meta">Cobblestones on Queen Street, gravel at wineries</div></div></li>
+        <li><input type="checkbox"><div><div class="text">Smart casual outfit for Pillar and Post</div></div></li>
+        <li><input type="checkbox"><div><div class="text">Change of clothes or waterproof layer for the boat tour</div><div class="meta">You will get wet</div></div></li>
+      </ul>
+
+      <div class="group-title">Practical</div>
+      <ul class="checklist" data-key="pack-practical">
+        <li><input type="checkbox"><div><div class="text">Canadian dollars or no-foreign-fee card</div></div></li>
+        <li><input type="checkbox"><div><div class="text">Poncho</div><div class="meta">Cruise provides one, but a dedicated dry layer is better</div></div></li>
+        <li><input type="checkbox"><div><div class="text">Reusable tote or small cooler</div><div class="meta">Cheese, jams, winery purchases</div></div></li>
+        <li><input type="checkbox"><div><div class="text">Water bottle</div></div></li>
+        <li><input type="checkbox"><div><div class="text">Sunscreen</div><div class="meta">Parkway walks and winery terraces are exposed</div></div></li>
+        <li><input type="checkbox"><div><div class="text">Small daypack</div></div></li>
+      </ul>
+    </div>
+
+    <div style="text-align:center;">
+      <button class="reset-btn" id="resetBtn">Reset all checkmarks</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="ornament">·  ·  ·</div>
+  Happy anniversary. May 14 – May 17, 2026.
+</footer>
+
+<script>
+  // Persist checkbox state to localStorage
+  const STORAGE_KEY = "niagara-itinerary-checks-v1";
+  const loadState = () => {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}"); }
+    catch (e) { return {}; }
+  };
+  const saveState = (state) => {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+    catch (e) {}
+  };
+
+  const state = loadState();
+
+  // Initialize all checkbox lists with stored state, and wire up handlers
+  document.querySelectorAll(".choice-list, .checklist").forEach((list) => {
+    const key = list.getAttribute("data-key");
+    if (!key) return;
+    const stored = state[key] || {};
+    const items = list.querySelectorAll("li");
+    items.forEach((li, idx) => {
+      const cb = li.querySelector("input[type=checkbox]");
+      if (!cb) return;
+      // Apply stored state (overrides any default `checked` attribute only when key exists)
+      if (stored.hasOwnProperty(String(idx))) {
+        cb.checked = !!stored[String(idx)];
+      }
+      if (cb.checked) li.classList.add("checked");
+
+      const toggle = () => {
+        cb.checked = !cb.checked;
+        li.classList.toggle("checked", cb.checked);
+        const s = loadState();
+        if (!s[key]) s[key] = {};
+        s[key][String(idx)] = cb.checked;
+        saveState(s);
+      };
+
+      // Click the row to toggle (except when clicking a link)
+      li.addEventListener("click", (e) => {
+        if (e.target.tagName === "A") return;
+        if (e.target.tagName === "INPUT") {
+          // let the native click happen, then sync class + state
+          requestAnimationFrame(() => {
+            li.classList.toggle("checked", cb.checked);
+            const s = loadState();
+            if (!s[key]) s[key] = {};
+            s[key][String(idx)] = cb.checked;
+            saveState(s);
+          });
+          return;
+        }
+        toggle();
+      });
+    });
+  });
+
+  // Reset button
+  document.getElementById("resetBtn").addEventListener("click", () => {
+    if (!confirm("Clear all checkmarks across the page?")) return;
+    localStorage.removeItem(STORAGE_KEY);
+    document.querySelectorAll(".choice-list li, .checklist li").forEach((li) => {
+      const cb = li.querySelector("input[type=checkbox]");
+      if (cb) cb.checked = cb.hasAttribute("data-default-checked");
+      li.classList.toggle("checked", !!cb && cb.checked);
+    });
+    // Re-apply original confirmed defaults on Booking section
+    document.querySelectorAll('.checklist[data-key="booking"] input[type=checkbox]').forEach((cb) => {
+      cb.checked = true;
+      cb.closest("li").classList.add("checked");
+    });
+  });
+
+  // Day nav active link tracking
+  const sections = document.querySelectorAll("section[id]");
+  const navLinks = document.querySelectorAll("nav.day-nav a");
+  const setActive = () => {
+    let current = "";
+    sections.forEach((s) => {
+      const rect = s.getBoundingClientRect();
+      if (rect.top <= 120) current = s.id;
+    });
+    navLinks.forEach((a) => {
+      a.classList.toggle("active", a.getAttribute("href") === "#" + current);
+    });
+  };
+  window.addEventListener("scroll", setActive, { passive: true });
+  setActive();
+</script>
+
+</body>
+</html>
