@@ -546,8 +546,8 @@
       <ul class="checklist" data-key="docs">
         <li><input type="checkbox"><div><div class="text">Passports</div><div class="meta">Required for Canadian entry and US return</div></div><span class="tag essential">Essential</span></li>
         <li><input type="checkbox"><div><div class="text">All confirmation numbers</div><div class="meta">Flights, hotel, cottage, car · Saved on phone and printed backup</div></div><span class="tag essential">Essential</span></li>
-        <li><input type="checkbox"><div><div class="text">Wonder Pass confirmation</div><div class="meta">Once purchased</div></div><span class="tag essential">Essential</span></li>
-        <li><input type="checkbox"><div><div class="text">Niagara City Cruises tickets</div><div class="meta">Once purchased</div></div><span class="tag essential">Essential</span></li>
+        <li><input type="checkbox"><div><div class="text">Niagara Wonder Pass</div><div class="meta">Purchased · save to phone before Thursday</div></div><span class="tag essential">Essential</span></li>
+        <li><input type="checkbox"><div><div class="text">Boat tour confirmation (Voyage to the Falls)</div><div class="meta">Conf. i76118520 · save to phone before Thursday</div></div><span class="tag essential">Essential</span></li>
         <li><input type="checkbox"><div><div class="text">Canadian dollars or no-foreign-fee card</div><div class="meta">Most places take cards. Cash is useful for tipping and small NOTL shops.</div></div><span class="tag essential">Essential</span></li>
         <li><input type="checkbox"><div><div class="text">Phone chargers, US plug</div><div class="meta">Canada uses the same plug as the US</div></div></li>
         <li><input type="checkbox"><div><div class="text">Sunglasses</div><div class="meta">Especially for Sunday's escarpment drive</div></div><span class="tag weather">Weather</span></li>
@@ -621,11 +621,12 @@
         <li><input type="checkbox"><div><div class="text">Layered for the ORD flight: long pants, long sleeve, mid-layer accessible</div></div></li>
         <li><input type="checkbox"><div><div class="text">Walking shoes on, not in the bag</div></div></li>
         <li><input type="checkbox"><div><div class="text">Wet-day kit packed in checked bag where you can find it Friday morning</div></div></li>
-        <li><input type="checkbox"><div><div class="text">Wonder Pass and Cruise tickets purchased</div></div></li>
+        <li><input type="checkbox"><div><div class="text">Wonder Pass and Boat tour confirmation pulled up on phone</div><div class="meta">Conf. i76118520 for the boat · Wonder Pass QR or email saved offline</div></div></li>
         <li><input type="checkbox"><div><div class="text">Home: thermostat, lights, alarm</div></div></li>
         <li><input type="checkbox"><div><div class="text">Niagara forecast checked one final time</div><div class="meta">Adjust shell vs warm jacket based on the morning-of view</div></div></li>
       </ul>
       <div style="text-align:center;">
+        <div style="font-size:12px;color:var(--muted);margin-bottom:4px;font-style:italic;font-family:var(--serif);">Your checkmarks save automatically on this device.</div>
         <button class="reset-btn" id="resetBtn">Reset all checkmarks</button>
       </div>
     </div>
@@ -638,7 +639,18 @@
 </footer>
 
 <script>
-  const STORAGE_KEY = "niagara-packing-checks-v1";
+  // Persist checkbox state to localStorage.
+  //
+  // STORAGE_KEY versioning:
+  // Checkbox state is saved by position in each list (item 0, item 1, ...).
+  // If you EDIT WORDING, PRICES, TIMES, OR LINKS but keep the same number and
+  // order of items in every checklist, leave the version as-is. Existing user
+  // checkmarks will survive the deploy.
+  //
+  // If you ADD, REMOVE, OR REORDER any checklist item (anything inside a
+  // <ul class="checklist">), bump the v-number (v2 -> v3, etc.). That wipes
+  // saved state so old marks don't land on the wrong item.
+  const STORAGE_KEY = "niagara-packing-checks-v2";
   const loadState = () => {
     try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}"); }
     catch (e) { return {}; }
